@@ -1,0 +1,39 @@
+# Les trois services du Fil rouge. Les ports se règlent dans un fichier .env (voir .env.example).
+name: ferraille
+services:
+  postgres:
+    image: postgres:18.6-alpine
+    environment:
+      POSTGRES_USER: ferraille
+      POSTGRES_PASSWORD: ferraille
+      POSTGRES_DB: ferraille
+    ports:
+      - "${POSTGRES_BIND:-127.0.0.1}:${POSTGRES_PORT-5432}:5432"
+    healthcheck:
+      # -h 127.0.0.1 : pendant l'initialisation, le serveur provisoire n'écoute que la socket Unix
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U ferraille -d ferraille"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  redis:
+    image: redis:8.8.4-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    ports:
+      - "${REDIS_BIND:-127.0.0.1}:${REDIS_PORT-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  rabbitmq:
+    image: rabbitmq:4.4-management-alpine
+    ports:
+      - "${RABBITMQ_BIND:-127.0.0.1}:${RABBITMQ_PORT-5672}:5672"
+      - "${RABBITMQ_UI_BIND:-127.0.0.1}:${RABBITMQ_UI_PORT-15672}:15672"
+    healthcheck:
+      # check_port_connectivity attend l'ouverture du port AMQP (ping passe au vert trop tôt)
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "check_port_connectivity"]
+      interval: 3s
+      timeout: 10s
+      retries: 30
+      start_period: 5s

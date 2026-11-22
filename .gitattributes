@@ -1,0 +1,6 @@
+# Fins de ligne LF partout : un script enregistré en CRLF sous Windows ne s'exécute plus.
+* text=auto eol=lf
+*.ttf binary
+*.png binary
+*.pdf binary
+*.docx binary
