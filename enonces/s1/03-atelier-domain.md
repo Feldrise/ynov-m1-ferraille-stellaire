@@ -49,9 +49,11 @@ Tests attendus : sur 1000 Crédits, 50 ; sur 190 Crédits, 9 (le Legacy en annon
 
 ## Point d'étape (vers 13h55, 3 min)
 
-Je demande à deux binômes où ils ont mis la validation du montant, et pourquoi.
+Je demande à deux binômes où ils ont mis la validation du montant, et pourquoi. Je désigne qui répond, écran fermé.
 
 ## Étape 3 : Annonce et Vente conclue (18 min)
+
+**Avant de coder**, dans `journal-s1.md` : où vas-tu mettre la règle « un Joueur ne peut pas acheter sa propre Annonce », et pourquoi là ? Une phrase.
 
 `VenteConclue` est un **événement de domaine** : un `type` en lecture seule qui dit ce qui s'est passé (Annonce, Objet, vendeur, acheteur, prix, taxe, net vendeur, date).
 
@@ -80,6 +82,8 @@ La taxe est passée en paramètre de `acheter` au lieu d'être choisie par l'Ann
 
 ## Étape 4 : Objet (17 min)
 
+**Avant de coder**, dans `journal-s1.md` : la règle « un Objet n'a qu'une seule Annonce active à la fois » va dans `Objet`, pas dans `Annonce`. Pourquoi ? Quelle entité peut savoir qu'une Annonce active existe déjà ? Une phrase.
+
 `Objet` est une entité : un exemplaire unique de butin, qui appartient à un Joueur.
 
 ```ts
@@ -98,8 +102,6 @@ Invariants à porter :
 - **seul le propriétaire met son Objet en vente** ;
 - **un Objet n'a qu'une seule Annonce active à la fois**.
 
-Pourquoi la seconde règle est-elle dans `Objet` et pas dans `Annonce` ? Quelle entité peut savoir qu'une Annonce active existe déjà ?
-
 Tests attendus : la mise en vente par le propriétaire rend une Annonce ; un autre Joueur est refusé ; une seconde mise en vente du même Objet est refusée.
 
 ## S'il te reste du temps
@@ -110,4 +112,4 @@ Tests attendus : la mise en vente par le propriétaire rend une Annonce ; un aut
 
 ## Mise en commun (7 min)
 
-Committe ton travail (`git add service-bourse && git commit`). Je projette un Domain, on lit ensemble ses tests : est-ce qu'ils démarrent une base ? Combien de millisecondes ? Combien d'endroits calculent la Taxe de Bourse ?
+Ton Familier t'a servi ? Une entrée « Familier » dans `journal-s1.md`. Committe ton travail (`git add service-bourse journal-s1.md && git commit`). Je projette un Domain, et son auteur explique, écran fermé, pourquoi chaque invariant est là où il est ; on lit ensemble ses tests : est-ce qu'ils démarrent une base ? Combien de millisecondes ? Combien d'endroits calculent la Taxe de Bourse ?

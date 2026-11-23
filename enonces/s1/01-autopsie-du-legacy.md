@@ -6,6 +6,22 @@ Le Legacy fonctionne : les Joueurs achètent, vendent, partent en Expédition. P
 
 Copie cette fiche dans un fichier `autopsie.md` à la racine de ton dépôt et remplis-la au fil de l'eau.
 
+Crée aussi `journal-s1.md` à la racine de ton dépôt : tu le tiendras toute la journée. Deux sortes d'entrées :
+
+```markdown
+## Avant de coder : <la question posée>
+
+<ta réponse, en une phrase, écrite avant d'ouvrir le Familier>
+
+## Familier : <le bloc, par exemple Autopsie>
+
+- Proposé : <ce que le Familier a proposé ou affirmé>
+- Gardé, modifié ou rejeté : <ta décision>
+- Pourquoi : <ce que tu as vérifié, et comment>
+```
+
+Le Familier est autorisé, comme partout. À la restitution, je désigne qui répond dans chaque binôme, écran fermé : chacun doit pouvoir défendre toute la fiche, pas seulement ses parties.
+
 ## Partagez-vous le travail
 
 Le chronomètre est court : **A** fait les parties 1 et 2, **B** les parties 3 et 4, en même temps. Gardez les 8 dernières minutes pour la partie 5, ensemble.
@@ -87,13 +103,13 @@ for joueur in zephyr lyra; do
 done
 ```
 
-Puis lance la Dupe : le script connecte zephyr et lyra, qui achètent la même Annonce au même instant.
+Le script de la Dupe connecte zephyr et lyra, qui achètent la même Annonce au même instant. **Avant de le lancer**, écris dans la fiche ta prédiction, en une phrase : que répondra le Legacy à chacun des deux, et combien de fois l'Objet sera-t-il vendu ?
 
 ```bash
 npm run dupe
 ```
 
-- Que répond le Legacy à chacun des deux ?
+- Que répond le Legacy à chacun des deux ? Ta prédiction était-elle juste ? Sinon, qu'avais-tu manqué ?
 - Relance la première commande : combien de Crédits ont quitté les poches des acheteurs, et combien de fois l'Objet a-t-il été vendu ?
 - Relis `POST /annonces/:id/achat` : entre quelle requête et quelle requête les deux achats se croisent-ils ?
 - Pour un Joueur de Ferraille Stellaire, comment s'appelle ce qui vient de se passer ? (Le mot est dans `GLOSSARY.md`.)
@@ -102,10 +118,14 @@ Recharge les données après (`npm run reinitialiser`) : la Dupe a laissé la ba
 
 ## 5. Le bilan du binôme (A et B)
 
-Listez **tous** les défauts que vous avez relevés, y compris ceux que vous avez croisés sans les chercher. Pour chacun, une conséquence concrète pour le studio ou pour un Joueur.
+Parmi tous les défauts que vous avez relevés, y compris ceux que vous avez croisés sans les chercher, choisissez les **trois plus graves** et classez-les, du plus grave au moins grave. Pour chacun, une conséquence concrète pour le studio ou pour un Joueur : c'est elle qui justifie le rang.
 
-| Défaut | Où | Conséquence |
-|---|---|---|
-| | | |
+| Rang | Défaut | Où | Conséquence |
+|---|---|---|---|
+| 1 | | | |
+| 2 | | | |
+| 3 | | | |
 
-Gardez votre fiche : pendant la restitution, chaque binôme apporte un défaut que les autres n'ont pas encore cité.
+Votre Familier vous a servi ? Une entrée « Familier » dans `journal-s1.md`, et s'il s'est trompé, sur quoi : une ligne du Legacy, un nombre, un arrondi.
+
+Gardez votre fiche : pendant la restitution, chaque binôme apporte un défaut que les autres n'ont pas encore cité, et je peux vous demander de défendre votre classement.
