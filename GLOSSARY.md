@@ -13,7 +13,7 @@ Le jeu vidéo multijoueur fictif dont les étudiants construisent et assainissen
 _Avoid_: Projet, cas d'étude, TP
 
 **Legacy**:
-Le monolithe backend du fil rouge, volontairement mal conçu, remis aux étudiants comme point de départ et assaini au fil du cours.
+Le monolithe backend du fil rouge, volontairement mal conçu, remis aux étudiants comme point de départ et assaini au fil du cours. Ses défauts viennent de l'absence de frontières, pas de ce qu'il tourne dans un seul processus.
 _Avoid_: Starter, projet de base, template
 
 **Note 1**:
@@ -153,6 +153,16 @@ _Avoid_: API marché, backend Bourse
 **Service Inventaire**:
 Le microservice qui tient ce que possède chaque joueur et réagit aux ventes conclues sur la Bourse aux épaves.
 _Avoid_: Service objets, stock
+
+## Architecture
+
+**Monolithe modulaire**:
+Un seul processus et un seul déploiement, découpé à l'intérieur en modules aux frontières tenues par la règle de dépendance et les ports ; le choix par défaut, avant tout second service.
+_Avoid_: Modulith
+
+**Monolithe distribué**:
+Des services qui ne peuvent changer, se déployer ou tomber en panne qu'ensemble (tables partagées, appels synchrones en chaîne, Domain partagé) : les coûts des microservices sans leurs bénéfices.
+_Avoid_: Distributed monolith
 
 ## Noms propres de l'univers
 
