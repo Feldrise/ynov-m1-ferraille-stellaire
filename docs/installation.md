@@ -6,20 +6,20 @@ Ton ordinateur fait tourner le backend de *Ferraille Stellaire* : le **Legacy** 
 
 Tout se fait pendant ce bloc de la Séance 1 : rien n'est à préparer avant. Il te faut un ordinateur portable sur lequel tu peux installer des logiciels (droits d'administrateur), branché sur secteur, et un compte GitHub (tu le crées sur place si besoin).
 
-Dix ordinateurs qui téléchargent Docker en même temps saturent le réseau de la salle : je t'apporte donc les gros fichiers sur une clé USB, le **paquet hors ligne**. Les longues installations tournent pendant que tu fais autre chose ; suis l'ordre des étapes, il est fait pour ça.
+Tout se télécharge sur le réseau de l'école, qui tient sans peine une classe entière. Les longues installations tournent pendant que tu fais autre chose ; suis l'ordre des étapes, il est fait pour ça.
 
 ### Neuf étapes, neuf repères
 
 | Étape | Durée | Au plus tard à la |
 |------------------------------------------------------|--------|---------------|
-| 1. Copier le paquet hors ligne | 3 min | 3e minute |
+| 1. Télécharger les installateurs | 3 min | 3e minute |
 | 2. Lancer les installations | 5 min | 8e minute |
 | 3. Attendre la fin de Docker Desktop | 3 min | 11e minute |
 | 4. Redémarrer | 4 min | 15e minute |
 | 5. Installer Ubuntu, démarrer Docker, préparer VS Code | 7 min | 22e minute |
-| 6. Charger les images Docker et installer Node.js 24 | 4 min | 26e minute |
-| 7. Cloner le dépôt et installer ses dépendances | 4 min | 30e minute |
-| 8. Démarrer les services et passer le diagnostic | 3 min | 33e minute |
+| 6. Installer Node.js 24 | 3 min | 25e minute |
+| 7. Cloner le dépôt et installer ses dépendances | 4 min | 29e minute |
+| 8. Démarrer les services et passer le diagnostic | 4 min | 33e minute |
 | 9. Lancer le Legacy et interroger GitHub Copilot | 3 min | 36e minute |
 | Marge | 14 min | 50e minute |
 
@@ -31,36 +31,30 @@ Si tout est prêt avant la fin du bloc, fais l'étape 10, la demande du Student 
 
 Ton ordinateur n'a pas redémarré avec Docker installé à la 28e minute (virtualisation désactivée, mise à jour de Windows interminable, disque plein) ? Lève la main. Tu rejoins un poste prêt, en binôme provisoire, pour l'exploration du Legacy et l'autopsie qui suit, et je reprends ton installation avec toi pendant la pause : ton poste est prêt avant la fin de la Séance.
 
-## 1. Copier le paquet hors ligne 3 min
+## 1. Télécharger les installateurs 3 min
 
-Copie le dossier `paquet-hors-ligne` de la clé dans ton dossier **Téléchargements**, puis passe la clé à ton voisin. Il contient :
+Télécharge, depuis les sites des éditeurs, dans ton dossier **Téléchargements** :
 
-| Fichier | Pour qui |
-|------------------------------------------|-----------------------------------------|
-| `windows/wsl.x64.msi`, `windows/ubuntu.wsl` | Windows : WSL et Ubuntu 24.04 |
-| `windows/DockerDesktopInstaller.exe` | Windows : Docker Desktop |
-| `windows/VSCodeUserSetup-x64.exe` | Windows : VS Code |
-| `images/images-amd64.tar` | PC Windows ou Linux, Mac Intel : images de PostgreSQL, Redis et RabbitMQ |
-| `images/images-arm64.tar` | Mac à puce Apple : les mêmes images |
+| Logiciel | Où | Quelle version |
+|-------------------|-----------------------------------|------------------------------------------|
+| Docker Desktop | **docs.docker.com/desktop** | Windows : « Docker Desktop for Windows - x86_64 » ; macOS : puce Apple ou Intel selon ton Mac |
+| VS Code | **code.visualstudio.com** | Windows : « User Installer x64 » ; macOS : « Universal » |
 
-Pas de clé sous la main ? Vérifie en attendant que tu peux te connecter à ton compte GitHub (ou crée-le sur **github.com/signup**) : il te servira à l'étape 5.
+Sous Linux, rien à télécharger ici : tout passe par le gestionnaire de paquets à l'étape 2. WSL et Ubuntu, sous Windows, se téléchargent d'eux-mêmes aux étapes 2 et 5, et les images de PostgreSQL, Redis et RabbitMQ au premier `npm run up`.
 
 ## 2. Lancer les installations 5 min
 
 ### Windows 10 ou 11
 
-Dans `Téléchargements\paquet-hors-ligne\windows` :
-
-1. Double-clique sur `wsl.x64.msi` et laisse l'installation se terminer (une minute).
-2. Ouvre PowerShell **en administrateur** (clic droit sur le menu Démarrer, « Terminal (administrateur) ») et lance `wsl --install --no-distribution` : WSL étant déjà là, la commande ne télécharge rien, elle active les fonctionnalités de Windows dont il a besoin.
-3. Double-clique sur `DockerDesktopInstaller.exe`, garde l'option **WSL 2** cochée (« Use WSL 2 instead of Hyper-V ») et lance l'installation. Elle dure plusieurs minutes : **ne l'attends pas**.
-4. Pendant ce temps, double-clique sur `VSCodeUserSetup-x64.exe` et garde les options proposées (dont « Ajouter à PATH »). Décoche « Lancer Visual Studio Code » à la fin.
+1. Ouvre PowerShell **en administrateur** (clic droit sur le menu Démarrer, « Terminal (administrateur) ») et lance `wsl --install --no-distribution` : la commande télécharge WSL et active les fonctionnalités de Windows dont il a besoin. Laisse-la se terminer (une à deux minutes).
+2. Dans **Téléchargements**, double-clique sur `Docker Desktop Installer.exe`, garde l'option **WSL 2** cochée (« Use WSL 2 instead of Hyper-V ») et lance l'installation. Elle dure plusieurs minutes : **ne l'attends pas**.
+3. Pendant ce temps, double-clique sur l'installateur de VS Code (`VSCodeUserSetup-x64-….exe`) et garde les options proposées (dont « Ajouter à PATH »). Décoche « Lancer Visual Studio Code » à la fin.
 
 Pendant que Docker Desktop s'installe, passe à l'étape 3.
 
 ### macOS
 
-Télécharge Docker Desktop (docs.docker.com/desktop, version puce Apple ou Intel selon ton Mac) et VS Code (code.visualstudio.com) : ils ne sont pas sur la clé, mais vous serez peu à télécharger. Glisse chacun dans Applications quand il arrive. Sous macOS, Git s'installe avec les outils de développement d'Apple : lance `xcode-select --install` dans un terminal si `git --version` ne répond pas.
+Ouvre `Docker.dmg` et glisse Docker dans Applications ; décompresse VS Code et glisse-le aussi dans Applications. Sous macOS, Git s'installe avec les outils de développement d'Apple : lance `xcode-select --install` dans un terminal si `git --version` ne répond pas.
 
 ### Linux
 
@@ -84,40 +78,28 @@ Pas de redémarrage sous macOS. Sous Linux, déconnecte-toi puis reconnecte-toi 
 
 ### Windows
 
-1. Ouvre PowerShell (sans les droits d'administrateur cette fois) et installe Ubuntu depuis le paquet :
+1. Ouvre PowerShell (sans les droits d'administrateur cette fois) et installe Ubuntu 24.04 :
 
 ```powershell
-cd $HOME\Downloads\paquet-hors-ligne
-wsl --install --from-file .\windows\ubuntu.wsl
+wsl --install -d Ubuntu-24.04
 ```
 
-PowerShell répond que l'option `--from-file` est inconnue ? Double-clique plutôt sur `windows\ubuntu.wsl` dans l'explorateur.
+La commande télécharge Ubuntu (environ 400 Mo) puis l'installe. Elle échoue ? Installe plutôt « Ubuntu 24.04 LTS » depuis le Microsoft Store.
 
 2. Pendant qu'Ubuntu s'installe, ouvre **VS Code**. Dans la vue Extensions, installe l'extension **WSL** (éditeur : Microsoft). Ouvre ensuite la vue de discussion (`Ctrl+Alt+I`) et connecte-toi avec ton compte GitHub quand VS Code le propose pour GitHub Copilot ; s'il ne propose rien, installe l'extension **GitHub Copilot**.
 3. Retourne dans PowerShell : Ubuntu te demande de créer ton utilisateur Linux, un nom en minuscules et un mot de passe (rien ne s'affiche quand tu le tapes, c'est normal). Note-le : `sudo` te le redemandera.
 4. Lance **Docker Desktop** depuis le menu Démarrer, accepte les conditions ; la connexion à un compte Docker n'est pas nécessaire (« Skip »). Attends que l'icône de la baleine reste immobile.
 5. Dans Docker Desktop, **Settings > Resources > WSL integration** : active Ubuntu, puis « Apply & restart ».
 
-Ensuite, **travaille dans le terminal Ubuntu** (menu Démarrer, « Ubuntu »), et non dans PowerShell : toutes les commandes de la suite s'y tapent telles quelles, sauf `docker load` à l'étape 6.
+Ensuite, **travaille dans le terminal Ubuntu** (menu Démarrer, « Ubuntu »), et non dans PowerShell : toutes les commandes de la suite s'y tapent telles quelles.
 
 ### macOS et Linux
 
 Lance Docker Desktop (macOS) et attends la baleine immobile dans la barre des menus. Ouvre VS Code et connecte-toi à GitHub Copilot comme ci-dessus (l'extension WSL ne sert que sous Windows).
 
-## 6. Charger les images Docker et installer Node.js 24 4 min
+## 6. Installer Node.js 24 3 min
 
-Deux terminaux, deux opérations en parallèle.
-
-**Premier terminal : les images.** Sous Windows, ouvre un **nouveau** PowerShell (le premier est resté dans Ubuntu) et place-toi dans le dossier du paquet :
-
-```powershell
-cd $HOME\Downloads\paquet-hors-ligne
-docker load -i .\images\images-amd64.tar
-```
-
-Sous macOS et Linux, dans un terminal : `docker load -i ~/Downloads/paquet-hors-ligne/images/images-arm64.tar` sur un Mac à puce Apple, `images-amd64.tar` sinon (adapte le chemin à ton dossier de téléchargements). Trois lignes `Loaded image` confirment que Docker fonctionne et qu'il a les images de PostgreSQL, Redis et RabbitMQ.
-
-**Second terminal : Node.js 24**, dans le terminal Ubuntu sous Windows, ou dans un terminal sous macOS et Linux. Node.js s'installe **dans WSL**, là où tu travailles :
+Dans le terminal Ubuntu sous Windows, ou dans un terminal sous macOS et Linux. Node.js s'installe **dans WSL**, là où tu travailles :
 
 ```bash
 git --version
@@ -147,13 +129,13 @@ code .
 
 `code .` ouvre le dossier dans VS Code. Sous Windows, VS Code s'ouvre connecté à WSL (« WSL: Ubuntu » en bas à gauche) ; la première fois, il s'installe dans Ubuntu pendant une minute. Sous macOS, si `code` est inconnu, ouvre VS Code, puis la palette de commandes (`Cmd+Maj+P`) et lance « Shell Command: Install 'code' command in PATH ».
 
-## 8. Démarrer les services et passer le diagnostic 3 min
+## 8. Démarrer les services et passer le diagnostic 4 min
 
 ```bash
 npm run up
 ```
 
-Les images étant déjà chargées, la commande rend la main en une quinzaine de secondes, quand les trois services sont prêts et que le jeu de données du Legacy est chargé :
+La première fois, Docker télécharge les images de PostgreSQL, Redis et RabbitMQ (environ 240 Mo) : compte une minute. La commande rend la main quand les trois services sont prêts et que le jeu de données du Legacy est chargé :
 
 ```text
 Jeu de données du Legacy chargé : 12 Joueurs, 60 Objets, 26 Annonces actives.
